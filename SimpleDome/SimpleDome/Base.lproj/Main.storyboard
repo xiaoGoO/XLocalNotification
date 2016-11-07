@@ -18,7 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TL-k9-UzH">
+                            <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TL-k9-UzH">
+                                <color key="backgroundColor" red="0.22126923430000001" green="0.84084587700000002" blue="0.24059744590000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="KVZ-Ng-4d0"/>
                                     <constraint firstAttribute="width" constant="200" id="iV8-If-XTw"/>
@@ -30,11 +31,39 @@
                                     <action selector="onPlush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f0S-Sd-e7p"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Dr-oi-Gtj">
+                                <color key="backgroundColor" red="1" green="0.56555457996630709" blue="0.72063510086486182" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="TB5-GE-bqS"/>
+                                </constraints>
+                                <state key="normal" title="移除所有通知"/>
+                                <connections>
+                                    <action selector="onPlush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zEW-tZ-H8a"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="reb-RE-VkK">
+                                <color key="backgroundColor" red="1" green="0.56555458000000003" blue="0.72063510090000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7L9-5n-G0g"/>
+                                </constraints>
+                                <state key="normal" title="移除当前通知"/>
+                                <connections>
+                                    <action selector="onPlush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y1N-ca-RTu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="1Dr-oi-Gtj" firstAttribute="top" secondItem="8TL-k9-UzH" secondAttribute="bottom" constant="10" id="0pp-8w-qVt"/>
+                            <constraint firstItem="1Dr-oi-Gtj" firstAttribute="leading" secondItem="8TL-k9-UzH" secondAttribute="leading" id="EvH-JR-PNe"/>
+                            <constraint firstItem="reb-RE-VkK" firstAttribute="centerX" secondItem="1Dr-oi-Gtj" secondAttribute="centerX" id="MBf-nK-q1X"/>
                             <constraint firstItem="8TL-k9-UzH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="23" id="d83-tL-7ha"/>
+                            <constraint firstItem="1Dr-oi-Gtj" firstAttribute="trailing" secondItem="8TL-k9-UzH" secondAttribute="trailing" id="gAa-Bn-a6P"/>
                             <constraint firstItem="8TL-k9-UzH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gAe-vE-vze"/>
+                            <constraint firstItem="reb-RE-VkK" firstAttribute="trailing" secondItem="1Dr-oi-Gtj" secondAttribute="trailing" id="gKS-yU-YMN"/>
+                            <constraint firstItem="1Dr-oi-Gtj" firstAttribute="centerX" secondItem="8TL-k9-UzH" secondAttribute="centerX" id="pjT-Zv-bKG"/>
+                            <constraint firstItem="reb-RE-VkK" firstAttribute="leading" secondItem="1Dr-oi-Gtj" secondAttribute="leading" id="vsH-di-4nI"/>
+                            <constraint firstItem="reb-RE-VkK" firstAttribute="top" secondItem="1Dr-oi-Gtj" secondAttribute="bottom" constant="10" id="yil-K7-r4W"/>
                         </constraints>
                     </view>
                     <connections>
@@ -43,6 +72,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="102.99850074962519"/>
         </scene>
     </scenes>
 </document>

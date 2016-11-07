@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "714202D21DB4F81400506409"
+               BuildableName = "libXLib.a"
+               BlueprintName = "XLib"
+               ReferencedContainer = "container:../XLib/XLib.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "713C79E01DB0BC6B00FEE90F"
                BuildableName = "XLocalNotificationLib.framework"
                BlueprintName = "XLocalNotificationLib"

@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import <XLocalNotificationLib/XLocalNotificationLib.h>
 
-@interface ViewController ()
+@interface ViewController ()<XLocalNotificationDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *testPlushBtn;
 
 @end
@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[XLocalNotification shareInstance] addNotificationDeleaget:self];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -31,8 +31,23 @@
 #pragma mark - action
 
 - (IBAction)onPlush:(UIButton *)sender {
-    [[XLocalNotification shareInstance] plushTs];
+    switch (sender.tag) {
+        case 101:
+            [[XLocalNotification shareInstance] plushNotificationWithIdentifier:@"view" title:@"我是标题哟！" subTitle:@"我是副标题" body:@"我是内容详情哟！！！！" userInfo:@{@"title":@"标题",@"name":@"xiaoG"} badge:1 longTime:60 repeats:YES];
+            break;
+        case 102:
+            [[XLocalNotification shareInstance] removeAllNotification];
+        case 103:
+            [[XLocalNotification shareInstance] removeNotificationByIdentifier:@"view"];
+        default:
+            break;
+    }
     
+}
+
+- (void) XLocalNotificationDidReceiveUserInfo:(NSDictionary *)userInfo{
+
+    NSLog(@"接收到推送-->%@",userInfo);
 }
 
 @end

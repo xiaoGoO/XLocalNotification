@@ -15,6 +15,10 @@
 		713C7A191DB0C34100FEE90F /* XLocalNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 713C7A171DB0C34100FEE90F /* XLocalNotification.h */; };
 		713C7A1A1DB0C34100FEE90F /* XLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 713C7A181DB0C34100FEE90F /* XLocalNotification.m */; };
 		713C7A1B1DB0C34100FEE90F /* XLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 713C7A181DB0C34100FEE90F /* XLocalNotification.m */; };
+		714202FC1DB500FB00506409 /* NSString+Ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 714202F81DB500FB00506409 /* NSString+Ext.h */; };
+		714202FD1DB500FB00506409 /* NSString+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 714202F91DB500FB00506409 /* NSString+Ext.m */; };
+		714202FE1DB500FB00506409 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 714202FA1DB500FB00506409 /* Utils.h */; };
+		714202FF1DB500FB00506409 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 714202FB1DB500FB00506409 /* Utils.m */; };
 		71F8ED731DB46B6D003DDACE /* Aspects.h in Headers */ = {isa = PBXBuildFile; fileRef = 71F8ED711DB46B6D003DDACE /* Aspects.h */; };
 		71F8ED741DB46B6D003DDACE /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F8ED721DB46B6D003DDACE /* Aspects.m */; };
 /* End PBXBuildFile section */
@@ -40,6 +44,11 @@
 		713C7A0B1DB0C26C00FEE90F /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		713C7A171DB0C34100FEE90F /* XLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLocalNotification.h; sourceTree = "<group>"; };
 		713C7A181DB0C34100FEE90F /* XLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLocalNotification.m; sourceTree = "<group>"; };
+		714202EC1DB4F99800506409 /* libXLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libXLib.a; path = "../../../../Library/Developer/Xcode/DerivedData/XLocalNotification-alhexzftqcxoopdftovyrakkkvtq/Build/Products/Debug-iphonesimulator/libXLib.a"; sourceTree = "<group>"; };
+		714202F81DB500FB00506409 /* NSString+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Ext.h"; sourceTree = "<group>"; };
+		714202F91DB500FB00506409 /* NSString+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Ext.m"; sourceTree = "<group>"; };
+		714202FA1DB500FB00506409 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		714202FB1DB500FB00506409 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		71F8ED711DB46B6D003DDACE /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
 		71F8ED721DB46B6D003DDACE /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +96,7 @@
 		713C79E31DB0BC6B00FEE90F /* XLocalNotificationLib */ = {
 			isa = PBXGroup;
 			children = (
+				714202F71DB500FB00506409 /* Utils */,
 				71F8ED701DB46B6D003DDACE /* Aspects */,
 				713C7A161DB0C34100FEE90F /* Class */,
 				713C79E41DB0BC6B00FEE90F /* XLocalNotificationLib.h */,
@@ -107,6 +117,7 @@
 		713C7A041DB0BD1100FEE90F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				714202EC1DB4F99800506409 /* libXLib.a */,
 				713C7A0B1DB0C26C00FEE90F /* UserNotifications.framework */,
 				713C7A051DB0BD1100FEE90F /* UIKit.framework */,
 			);
@@ -120,6 +131,17 @@
 				713C7A181DB0C34100FEE90F /* XLocalNotification.m */,
 			);
 			path = Class;
+			sourceTree = "<group>";
+		};
+		714202F71DB500FB00506409 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				714202F81DB500FB00506409 /* NSString+Ext.h */,
+				714202F91DB500FB00506409 /* NSString+Ext.m */,
+				714202FA1DB500FB00506409 /* Utils.h */,
+				714202FB1DB500FB00506409 /* Utils.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		71F8ED701DB46B6D003DDACE /* Aspects */ = {
@@ -138,8 +160,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				714202FC1DB500FB00506409 /* NSString+Ext.h in Headers */,
 				713C7A191DB0C34100FEE90F /* XLocalNotification.h in Headers */,
 				713C79F21DB0BC6B00FEE90F /* XLocalNotificationLib.h in Headers */,
+				714202FE1DB500FB00506409 /* Utils.h in Headers */,
 				71F8ED731DB46B6D003DDACE /* Aspects.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,8 +268,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				714202FD1DB500FB00506409 /* NSString+Ext.m in Sources */,
 				713C7A1A1DB0C34100FEE90F /* XLocalNotification.m in Sources */,
 				71F8ED741DB46B6D003DDACE /* Aspects.m in Sources */,
+				714202FF1DB500FB00506409 /* Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,14 +394,17 @@
 		713C79F61DB0BC6B00FEE90F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 66NGKKURC7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../XLib/**";
 				INFOPLIST_FILE = XLocalNotificationLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.x.XLocalNotificationLib;
@@ -387,14 +416,17 @@
 		713C79F71DB0BC6B00FEE90F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 66NGKKURC7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../XLib/**";
 				INFOPLIST_FILE = XLocalNotificationLib/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.x.XLocalNotificationLib;

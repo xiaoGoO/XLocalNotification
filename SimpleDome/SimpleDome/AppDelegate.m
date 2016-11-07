@@ -20,9 +20,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [[XLocalNotification shareInstance] initSDK];
-    [[XLocalNotification shareInstance] addNotificationObserver:^(NSDictionary * info) {
-        NSLog(@"---->%@",info);
-    }];
     
     return YES;
 }
