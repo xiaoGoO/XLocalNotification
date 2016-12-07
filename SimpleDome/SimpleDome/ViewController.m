@@ -33,7 +33,8 @@
 - (IBAction)onPlush:(UIButton *)sender {
     switch (sender.tag) {
         case 101:
-            [[XLocalNotification shareInstance] plushNotificationWithIdentifier:@"view" title:@"我是标题哟！" subTitle:@"我是副标题" body:@"我是内容详情哟！！！！" userInfo:@{@"title":@"标题",@"name":@"xiaoG"} badge:1 longTime:60 repeats:YES];
+//            [[XLocalNotification shareInstance] plushNotificationWithIdentifier:@"view" title:@"我是标题哟！" subTitle:@"我是副标题" body:@"我是内容详情哟！！！！" userInfo:@{@"title":@"标题",@"name":@"xiaoG"} badge:1 longTime:60 repeats:YES];
+            [[XLocalNotification shareInstance] plushTs];
             break;
         case 102:
             [[XLocalNotification shareInstance] removeAllNotification];

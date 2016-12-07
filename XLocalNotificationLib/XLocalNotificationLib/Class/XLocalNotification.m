@@ -12,6 +12,7 @@
 
 @interface XLocalNotification (){
     NSMutableArray *_handles;
+    NSMutableDictionary<NSString *,UILocalNotification *> *_cacheNotification;//记录已经发送的推送 用于ios 10 以下版本使用
 }
 
 @end
@@ -38,6 +39,7 @@ static XLocalNotification *_xLocalNotification;
  * 初始化
  */
 - (void) initSDK{
+    _cacheNotification = [NSMutableDictionary new];
     [self registerNotification];
 }
 
@@ -73,6 +75,15 @@ static XLocalNotification *_xLocalNotification;
         UIUserNotificationType type = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    //拦截 推送接收方法 application:didReceiveLocalNotification:
+    if([((NSObject *)[UIApplication sharedApplication].delegate) respondsToSelector:@selector(application:didReceiveLocalNotification:)]){
+        [((NSObject *)[UIApplication sharedApplication].delegate) aspect_hookSelector:@selector(application:didReceiveLocalNotification:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> info,UIApplication *application,UILocalNotification * notification){
+            for (id<XLocalNotificationDelegate> deleagte in _handles) {
+                [deleagte XLocalNotificationDidReceiveUserInfo:notification.userInfo];
+            }
+            
+        } error:nil];
     }
     
 }
@@ -120,6 +131,7 @@ static XLocalNotification *_xLocalNotification;
     content.badge = @(2);
     //    [self plushNotificationById:@"123" time:60 content:content];
     //    [self plushByContent:content];
+    [self plushNotificationWithId:@"xxx" time:[NSDate new] timeZone:[NSTimeZone defaultTimeZone] repeatInterval:NSCalendarUnitSecond content:@"我是内容" title:@"我是标题" badge:1 userInfo:@{@"xxx":@"wd"}];
 }
 
 - (void) plushByContent:(UNNotificationContent *)content{
@@ -178,6 +190,63 @@ static XLocalNotification *_xLocalNotification;
     [self plushTimeNotificationById:identifier time:longTime content:content repeats:repeats];
 }
 
+/**
+ *  推送 （根据时间）
+ *
+ *  @param identifier 唯一标识
+ *  @param title      标题 （ios10）
+ *  @param subTitle   副标题
+ *  @param body       内容（ios10）
+ *  @param userInfo   传递内容
+ *  @param badge      角标
+ *  @param time       推送时间
+ */
+-(void) plushNotificationWithIdentifier:(NSString *) identifier title:(NSString *)title subTitle:(NSString *)subTitle body:(NSString *) body userInfo:(NSDictionary *)userInfo badge:(int) badge time:(NSDate *) time repeats:(BOOL) repeats{
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0){//IOS 10以后版本
+        
+    }else{//IOS 10 之前
+        [self plushNotificationWithId:identifier time:time timeZone:[NSTimeZone defaultTimeZone] repeatInterval:repeats ? NSCalendarUnitDay:0 content:subTitle title:title badge:badge userInfo:userInfo launchImage:nil soundName:nil alertAction:nil];
+    }
+
+}
+
+-(void) plushTT{
+
+
+}
+
+/**
+ *  推送 （根据时间）IOS 10以上版本
+ *
+ *  @param identifier 唯一标识
+ *  @param title      标题 （ios10）
+ *  @param subTitle   副标题
+ *  @param body       内容（ios10）
+ *  @param userInfo   传递内容
+ *  @param badge      角标
+ *  @param time       推送时间
+ *  @param repeats    是否重复
+ *  @param launchImage 头像
+ *  @param soundName  推送声音
+ */
+-(void) plushNotificationIOS10WithIdentifier:(NSString *) identifier title:(NSString *)title subTitle:(NSString *)subTitle body:(NSString *) body userInfo:(NSDictionary *)userInfo badge:(int) badge time:(NSDate *) time repeats:(BOOL) repeats  launchImage:(NSString *)launchImage soundName:(NSString *)soundName{
+    UNNotificationContent * content = [[UNNotificationContent alloc] init];
+    content.title = title;
+    content.subtitle = subTitle;
+    content.body = body;
+    content.userInfo = userInfo;
+    content.badge = badge;
+    content.launchImageName = launchImage;
+    if(soundName){
+        content.sound = [UNNotificationSound soundNamed:soundName];
+    }else{
+        content.sound = [UNNotificationSound defaultSound];
+    }
+    
+    
+    [self plushClaendarNotificationById:identifier time:time timeZone:[NSTimeZone defaultTimeZone] content:content repeats:YES];
+}
 
 
 /**
@@ -193,7 +262,15 @@ static XLocalNotification *_xLocalNotification;
  *  @param identifier 唯一标识
  */
 - (void) removeNotificationByIdentifier:(NSString *)identifier{
-    [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[identifier]];
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0){//IOS 10以后版本
+        [[UNUserNotificationCenter currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[identifier]];
+    }else{
+        UILocalNotification *notification= [_cacheNotification objectForKey:identifier];
+        if(notification){
+            [[UIApplication sharedApplication] cancelLocalNotification:notification];
+            [_cacheNotification removeObjectForKey:identifier];
+        }
+    }
 
 }
 
@@ -227,17 +304,28 @@ static XLocalNotification *_xLocalNotification;
 
 #pragma mark - 私有方法
 
--(void) plushTTT{
-    NSDate *fireDate = [[NSDate alloc] init];
-    NSTimeZone *timeZone = [NSTimeZone defaultTimeZone];
-    NSCalendarUnit repeatInterval = kCFCalendarUnitSecond;
-    NSString *sContent = @"我是内容";
-    NSString *sTitle = @"我是变态";
-    NSInteger iBadge = 1;
-    NSDictionary *infoDic = @{}
-    
+
+
+
+/**
+ *  发送通知 IOS10以前
+ *
+ *  @param identifier     通知唯一标识
+ *  @param time           通知时间
+ *  @param timeZone       时区
+ *  @param repeatInterval 重复间隔
+ *  @param sContent       内容
+ *  @param sTitle         标题
+ *  @param iBadge         红点
+ *  @param userInfo       传递数据
+ *  @param launchImage    推送头像
+ *  @param soundName      推送声音
+ *  @param alertAction    额外按钮名称
+ */
+-(void) plushNotificationWithId:(NSString *) identifier time:(NSDate *)time timeZone:(NSTimeZone *)timeZone repeatInterval:(NSCalendarUnit) repeatInterval content:(NSString *)sContent title:(NSString *)sTitle badge:(NSInteger) iBadge userInfo:(NSDictionary *)userInfo launchImage:(NSString *)launchImage soundName:(NSString *)soundName alertAction:(NSString *)alertAction{
+
     UILocalNotification *notification = [[UILocalNotification alloc] init];
-    notification.fireDate = fireDate;
+    notification.fireDate = time;
     //时区
     notification.timeZone = timeZone;
     //设置重复间隔
@@ -246,12 +334,58 @@ static XLocalNotification *_xLocalNotification;
     notification.alertBody = sContent;
     //通知标题
     notification.alertTitle = sTitle;
+    if(soundName){
+        notification.soundName = soundName;
+    }else{
+        notification.soundName = UILocalNotificationDefaultSoundName;
+    }
+    notification.alertLaunchImage = launchImage;
+    if(alertAction){
+        notification.alertAction = alertAction;
+        notification.hasAction = YES;
+    }else{
+        notification.hasAction = NO;
+    }
     //角标数字
     notification.applicationIconBadgeNumber = iBadge;
     //通知数据
-    notification.userInfo = infoDic;
+    notification.userInfo = userInfo;
     
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
     
+    //记录推送的通知
+    [_cacheNotification setObject:notification forKey:identifier];
+
+}
+
+
+
+/**
+ *  时间 本地通知 IOS10以后方法
+ *
+ *  @param identifier 唯一标识
+ *  @param content    内容
+ *  @param repeats    是否重复通知
+ */
+-(void) plushClaendarNotificationById:(NSString *)identifier time:(NSDate *)time timeZone:(NSTimeZone *)timeZone content:(UNNotificationContent *)content repeats:(BOOL) repeats{
+    NSDateComponents * components = [[NSDateComponents alloc] init];
+    components.date = time;
+    components.timeZone = timeZone;
+    [self plushClaendarNotificationById:identifier components:components content:content repeats:repeats];
+    UNPushNotificationTrigger *t = [UNPushNotificationTrigger ]
+}
+
+/**
+ *  设置时间推送 IOS10以后方法
+ *
+ *  @param identifier 唯一标识
+ *  @param components 时间设置
+ *  @param content    内容
+ *  @param repeats    是否重复
+ */
+-(void) plushClaendarNotificationById:(NSString *)identifier components:(NSDateComponents *)components content:(UNNotificationContent *)content repeats:(BOOL) repeats{
+    UNCalendarNotificationTrigger * trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:repeats];
+    UNNotificationRequest *requset = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
 }
 
 /**
@@ -263,7 +397,6 @@ static XLocalNotification *_xLocalNotification;
  *  @param repeats    是否重复
  */
 - (void) plushTimeNotificationById:(NSString *)identifier time:(NSTimeInterval) time content:(UNNotificationContent *)content repeats:(BOOL)repeats{
-    
     
     [self checkNotificationActiveCallBlock:^(XNotificationAuthorStatus status) {
         if(status == XNotificationAuthorStatusDenied){//木有通知权限
